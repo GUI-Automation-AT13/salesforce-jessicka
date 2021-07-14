@@ -7,7 +7,7 @@ import utils.SetUp;
 
 public class ProductsTests extends BaseTest {
 
-    @Test
+//    @Test
     public void testCreateProductWithJustRequiredFields() {
         ProductPage productPage = loginPage.loginSuccessfully(SetUp.USER_NAME_SALESFORCE.getValue(), SetUp.PASSWORD.getValue());
     }
