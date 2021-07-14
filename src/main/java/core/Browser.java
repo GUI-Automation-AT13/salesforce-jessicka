@@ -12,6 +12,11 @@ public enum Browser {
         this.browser = browser;
     }
 
+    /**
+     * Gets the browser
+     *
+     * @return the browser
+     */
     public String getBrowser() {
         return this.browser;
     }

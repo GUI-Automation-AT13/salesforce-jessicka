@@ -3,12 +3,12 @@ package products;
 import base.BaseTest;
 import org.testng.annotations.Test;
 import salesforce.ui.pages.ProductPage;
-import static configfile.Configuration.dotenv;
+import utils.SetUp;
 
 public class ProductsTests extends BaseTest {
 
-//    @Test
+    @Test
     public void testCreateProductWithJustRequiredFields() {
-        ProductPage productPage = loginPage.loginSuccessfully(dotenv.get("USER_NAME_SALESFORCE"), dotenv.get("PASSWORD"));
+        ProductPage productPage = loginPage.loginSuccessfully(SetUp.USER_NAME_SALESFORCE.getValue(), SetUp.PASSWORD.getValue());
     }
 }
