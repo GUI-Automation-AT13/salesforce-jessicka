@@ -13,7 +13,7 @@ public enum Browser {
     }
 
     /**
-     * Gets the browser
+     * Gets the browser.
      *
      * @return the browser
      */

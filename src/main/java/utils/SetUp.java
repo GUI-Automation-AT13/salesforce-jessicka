@@ -19,7 +19,7 @@ public enum SetUp {
     }
 
     /**
-     * Gets the value
+     * Gets the value.
      *
      * @return the value
      */
