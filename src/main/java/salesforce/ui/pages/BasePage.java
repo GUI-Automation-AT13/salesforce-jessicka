@@ -1,9 +1,10 @@
 package salesforce.ui.pages;
 
+import core.WebDriverManagerSingleton;
+import core.WebElementAction;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import utils.SetUp;
 
 /**
  * This abstract class is the base page for all pages.
@@ -11,15 +12,15 @@ import utils.SetUp;
 public abstract class BasePage {
     protected WebDriver driver;
     protected WebDriverWait wait;
+    protected WebElementAction webElementAction;
 
     /**
      * Constructor method.
-     *
-     * @param driver with the driver needed.
      */
-    public BasePage(final WebDriver driver) {
-        this.driver = driver;
-        wait = new WebDriverWait(driver, Long.valueOf(SetUp.WAIT_TIME_VALUE.getValue()));
+    public BasePage() {
+        this.driver = WebDriverManagerSingleton.getInstance().getDriver();
+        wait = WebDriverManagerSingleton.getInstance().getWebDriverWait();
+        webElementAction = new WebElementAction();
         PageFactory.initElements(driver, this);
         waitForPageLoaded();
     }
