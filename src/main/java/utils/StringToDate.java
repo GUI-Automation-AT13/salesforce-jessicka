@@ -1,5 +1,6 @@
 package utils;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -8,103 +9,123 @@ import java.util.Date;
  * This class returns literal dates converted to date format.
  */
 public class StringToDate {
-    private Date date;
-    private SimpleDateFormat formatter;
-    private String result;
+
+    SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
 
     /**
-     * Converts literal date String to a string in date format.
+     * Converts literal date String to a date format.
      *
      * @param stringToConvert a literal date String.
-     * @return a string in date format.
+     * @return a date format.
      */
-    public String convert(final String stringToConvert) {
-        String resultDate = "";
+    public Date convert(final String stringToConvert) {
         if (stringToConvert == null) {
-            throw new RuntimeException("Value is null");
+            throw new IllegalArgumentException("Value is null");
         }
         if (stringToConvert.equals("")) {
-            throw new RuntimeException("Value is empty");
+            throw new IllegalArgumentException("Value is empty");
         }
 
         if (stringToConvert.matches("TODAY|TOMORROW|YESTERDAY")) {
-            resultDate = dayName(stringToConvert);
+            return dayName(stringToConvert);
         }
 
-        if (stringToConvert.contains("from now")) {
-            resultDate = futureValue(stringToConvert);
+        if (stringToConvert.contains("ago") || stringToConvert.contains("from now")) {
+            return getDateValue(stringToConvert);
         }
 
-        if (stringToConvert.contains("ago")) {
-            resultDate = pastValue(stringToConvert);
+        if (stringToConvert.contains("/")) {
+            try {
+                return dateFormat.parse(stringToConvert);
+            } catch (ParseException exception) {
+                throw new IllegalArgumentException(exception);
+            }
         }
-        return resultDate;
+
+        return null;
     }
 
     /**
-     * Converts 'TODAY, TOMORROW, YESTERDAY' to a string in date format.
+     * Converts 'TODAY, TOMORROW, YESTERDAY' to a date format.
      *
      * @param dateString a literal date String.
-     * @return a string in date format.
+     * @return a date format.
      */
-    public String dayName(final String dateString) {
-        String date = null;
+    public Date dayName(final String dateString) {
         if ("TODAY".equals(dateString)) {
-            date = getTodayDate();
+            return getTodayDate();
         }
         if ("TOMORROW".equals(dateString)) {
-            date = getFuture(1, Calendar.DATE);
+            return getTimelineDate(1, Calendar.DATE);
         }
         if ("YESTERDAY".equals(dateString)) {
-            date = getPast(1, Calendar.DATE);
+            return getTimelineDate(- 1, Calendar.DATE);
         }
-        return date;
+        return null;
     }
 
     /**
-     * Converts literal dates that contains 'from now' to a string in date format.
+     * Converts literal dates that contains 'ago, from now' to a date format.
      *
      * @param dateString a literal date String.
-     * @return a string in date format.
+     * @return a date format.
      */
-    public String futureValue(final String dateString) {
-        String dateResult = null;
+    public Date getDateValue(final String dateString) {
         if (dateString.contains(" years ")) {
-            dateResult = getFuture(getIntFromString(dateString), Calendar.YEAR);
+            return getTimeLine(getIntFromString(dateString), Calendar.YEAR, dateString);
         }
 
         if (dateString.contains(" months ")) {
-            dateResult = getFuture(getIntFromString(dateString), Calendar.MONTH);
+            return getTimeLine(getIntFromString(dateString), Calendar.MONTH, dateString);
         }
 
         if (dateString.contains(" days ") || dateString.contains(" day ")) {
-            dateResult = getFuture(getIntFromString(dateString), Calendar.DATE);
+            return getTimeLine(getIntFromString(dateString), Calendar.DATE, dateString);
         }
 
-        return dateResult;
+        return null;
     }
 
     /**
-     * Converts literal dates that contains 'ago' to a string in date format.
+     * Gets a future or past 'day, month, year' in date format.
      *
+     * @param number the number of 'day, month, year' from now.
+     * @param type the type of value (day, month, year).
      * @param dateString a literal date String.
-     * @return a string in date format.
+     * @return a date format.
      */
-    public String pastValue(final String dateString) {
-        String dateResult = null;
-        if (dateString.contains(" years ")) {
-            dateResult = getPast(getIntFromString(dateString), Calendar.YEAR);
+    public Date getTimeLine(int number, int type, String dateString) {
+        if (dateString.contains(" from now")) {
+            return getTimelineDate(number, type);
         }
 
-        if (dateString.contains(" months ")) {
-            dateResult = getPast(getIntFromString(dateString), Calendar.MONTH);
+        if (dateString.contains(" ago")) {
+            return getTimelineDate(- number, type);
         }
+        return null;
+    }
 
-        if (dateString.contains(" days ") || dateString.contains(" day ")) {
-            dateResult = getPast(getIntFromString(dateString), Calendar.DATE);
-        }
+    /**
+     * Gets actual date in date format.
+     *
+     * @return a date format.
+     */
+    public Date getTodayDate() {
+        Calendar calendar = Calendar.getInstance();
+        return calendar.getTime();
+    }
 
-        return dateResult;
+    /**
+     * Gets a future or past 'day, month, year' in date format.
+     *
+     * @param number the number of 'day, month, year' from now.
+     * @param type the type of value (day, month, year).
+     * @return a date format.
+     */
+    public Date getTimelineDate(final int number, final int type) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(type, number);
+        return calendar.getTime();
     }
 
     /**
@@ -115,51 +136,6 @@ public class StringToDate {
      */
     public int getIntFromString(final String string) {
         return Integer.parseInt(string.replaceAll("[\\D]", ""));
-    }
-
-    /**
-     * Gets actual date in an string in date format.
-     *
-     * @return a string in date format.
-     */
-    public String getTodayDate() {
-        Calendar calendar = Calendar.getInstance();
-        date = calendar.getTime();
-        formatter = new SimpleDateFormat("MM/dd/yyyy");
-        result = formatter.format(date);
-        return result;
-    }
-
-    /**
-     * Gets a future 'day, month, year' in an string in date format.
-     *
-     * @param number the number of 'day, month, year' from now.
-     * @param type the type of value (day, month, year)
-     * @return a string in date format.
-     */
-    public String getFuture(final int number, final int type) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(type, number);
-        date = calendar.getTime();
-        formatter = new SimpleDateFormat("MM/dd/yyyy");
-        result = formatter.format(date);
-        return result;
-    }
-
-    /**
-     * Gets a past 'day, month, year' in an string in date format.
-     *
-     * @param number the number of 'day, month, year' ago.
-     * @param type the type of value (day, month, year)
-     * @return a string in date format.
-     */
-    public String getPast(final int number, final int type) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(type, - number);
-        date = calendar.getTime();
-        formatter = new SimpleDateFormat("MM/dd/yyyy");
-        result = formatter.format(date);
-        return result;
     }
 
 }
