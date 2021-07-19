@@ -93,11 +93,17 @@ public class WebDriverManagerSingleton {
         return webDriverWait;
     }
 
+    /**
+     * Closes the driver.
+     */
     public void closeDriver() {
         driver.close();
         driver = null;
     }
 
+    /**
+     * Quits the driver.
+     */
     public void quitDriver() {
         driver.quit();
         driver = null;

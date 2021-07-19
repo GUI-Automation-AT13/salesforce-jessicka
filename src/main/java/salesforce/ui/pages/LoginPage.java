@@ -41,6 +41,9 @@ public class LoginPage extends BasePage {
         webElementAction.setInputField(passwordTextBox, password);
     }
 
+    /**
+     * Clicks on loginButton.
+     */
     private void clickLoginButton() {
         webElementAction.clickField(loginButton);
     }
@@ -51,7 +54,7 @@ public class LoginPage extends BasePage {
      * @param userName to set
      * @param password to set
      *
-     * @return a ProductPage instance
+     * @return a ProductsPage instance
      */
     public HomePage loginSuccessfully(final String userName, final String password) {
         setUsername(userName);

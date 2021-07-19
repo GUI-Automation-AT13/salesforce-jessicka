@@ -38,4 +38,14 @@ public class WebElementAction {
         wait.until(ExpectedConditions.visibilityOf(webElement));
         webElement.click();
     }
+
+    /**
+     * Gets the text of a web element.
+     *
+     * @param webElement web element to get text.
+     */
+    public String getTextOfElement(final WebElement webElement) {
+        wait.until(ExpectedConditions.visibilityOf(webElement));
+        return webElement.getText();
+    }
 }
