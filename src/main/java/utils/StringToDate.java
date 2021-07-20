@@ -19,21 +19,15 @@ public class StringToDate {
      * @return a date format.
      */
     public Date convert(final String stringToConvert) {
-        if (stringToConvert == null) {
-            throw new IllegalArgumentException("Value is null");
+        if (stringToConvert == null || stringToConvert.equals("")) {
+            throw new IllegalArgumentException("Invalid Argument: Unsupported String Format");
         }
-        if (stringToConvert.equals("")) {
-            throw new IllegalArgumentException("Value is empty");
-        }
-
         if (stringToConvert.matches("TODAY|TOMORROW|YESTERDAY")) {
             return dayName(stringToConvert);
         }
-
         if (stringToConvert.contains("ago") || stringToConvert.contains("from now")) {
             return getDateValue(stringToConvert);
         }
-
         if (stringToConvert.contains("/")) {
             try {
                 return dateFormat.parse(stringToConvert);
@@ -41,8 +35,7 @@ public class StringToDate {
                 throw new IllegalArgumentException(exception);
             }
         }
-
-        return null;
+        throw new IllegalArgumentException("Invalid Argument: Unsupported String Format");
     }
 
     /**
@@ -61,7 +54,7 @@ public class StringToDate {
         if ("YESTERDAY".equals(dateString)) {
             return getTimelineDate(- 1, Calendar.DATE);
         }
-        return null;
+        throw new IllegalArgumentException("Invalid Argument: Unsupported String Format");
     }
 
     /**
@@ -71,19 +64,16 @@ public class StringToDate {
      * @return a date format.
      */
     public Date getDateValue(final String dateString) {
-        if (dateString.contains(" years ")) {
+        if (dateString.contains(" years ") || dateString.contains(" year ")) {
             return getTimeLine(getIntFromString(dateString), Calendar.YEAR, dateString);
         }
-
-        if (dateString.contains(" months ")) {
+        if (dateString.contains(" months ") || dateString.contains(" month ")) {
             return getTimeLine(getIntFromString(dateString), Calendar.MONTH, dateString);
         }
-
         if (dateString.contains(" days ") || dateString.contains(" day ")) {
             return getTimeLine(getIntFromString(dateString), Calendar.DATE, dateString);
         }
-
-        return null;
+        throw new IllegalArgumentException("Invalid Argument: Unsupported String Format");
     }
 
     /**
@@ -98,11 +88,10 @@ public class StringToDate {
         if (dateString.contains(" from now")) {
             return getTimelineDate(number, type);
         }
-
         if (dateString.contains(" ago")) {
             return getTimelineDate(- number, type);
         }
-        return null;
+        throw new IllegalArgumentException("Invalid Argument: Unsupported String Format");
     }
 
     /**

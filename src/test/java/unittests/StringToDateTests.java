@@ -108,13 +108,13 @@ public class StringToDateTests {
     }
 
     @Test(expectedExceptions = {IllegalArgumentException.class},
-            expectedExceptionsMessageRegExp = "Value is null.*")
+            expectedExceptionsMessageRegExp = "Invalid Argument: Unsupported String Format.*")
     public void testNullDate() {
         Date actual = stringToDate.convert(null);
     }
 
     @Test(expectedExceptions = {IllegalArgumentException.class},
-            expectedExceptionsMessageRegExp = "Value is empty.*")
+            expectedExceptionsMessageRegExp = "Invalid Argument: Unsupported String Format.*")
     public void testEmptyDate() {
         Date actual = stringToDate.convert("");
     }
