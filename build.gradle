@@ -1,6 +1,16 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'info.solidsoft.gradle.pitest:gradle-pitest-plugin:1.6.0'
+    }
+}
+
 plugins {
     id 'java'
     id 'checkstyle'
+    id 'info.solidsoft.pitest' version '1.6.0'
 }
 
 group 'org.example'
@@ -19,6 +29,14 @@ dependencies {
 
 test {
     useTestNG()
+}
+
+pitest {
+    testPlugin='testng'
+    targetClasses = ['utils.StringToDate']
+    targetTests = ['unittests.StringToDateTests*']
+    threads = 4
+    outputFormats = ['XML', 'HTML']
 }
 
 checkstyle {
