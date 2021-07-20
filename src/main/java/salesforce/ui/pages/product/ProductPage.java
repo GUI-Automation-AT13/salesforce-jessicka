@@ -1,5 +1,6 @@
 package salesforce.ui.pages.product;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -10,11 +11,11 @@ import salesforce.ui.pages.BasePage;
  */
 public class ProductPage extends BasePage {
 
+    @FindBy(css = ".slds-theme--success")
+    private WebElement successMessage;
+
     @FindBy(css = ".slds-page-header__title > .uiOutputText")
     private WebElement productTitle;
-
-    @FindBy(xpath = "(//span[contains(@class,'test-id__field-value')]/span[not(contains(@class,'uiOutputDateTime'))])[1]")
-    private WebElement productNameSpan;
 
     @FindBy(css = "img.checked")
     private WebElement activeCheckBoxChecked;
@@ -22,14 +23,10 @@ public class ProductPage extends BasePage {
     @FindBy(css = "img.unchecked")
     private WebElement activeCheckBoxUnchecked;
 
-    @FindBy(xpath = "(//span[contains(@class,'test-id__field-value')]/span[not(contains(@class,'uiOutputDateTime'))])[3]")
-    private WebElement productCodeSpan;
+    @FindBy(xpath = "//span[text()='Created By']/../..//span[contains(@class,'uiOutputDateTime')]")
+    private WebElement createdByDate;
 
-    @FindBy(xpath = "(//span[contains(@class,'test-id__field-value')]/span[not(contains(@class,'uiOutputDateTime'))])[4]")
-    private WebElement productFamilySpan;
-
-    @FindBy(xpath = "(//span[contains(@class,'test-id__field-value')]/span[not(contains(@class,'uiOutputDateTime'))])[5]")
-    private WebElement productDescriptionSpan;
+    private static final String SPAN_XPATH = "//div/span[text()='%s']/../..//span/span";
 
     @Override
     protected void waitForPageLoaded() {
@@ -37,47 +34,30 @@ public class ProductPage extends BasePage {
     }
 
     /**
-     * Gets the title message.
+     * Gets the text of spans.
+     *
+     * @param fieldName the name of the field
+     * @return the text of a span
+     */
+    public String getSpanText(final String fieldName) {
+        return webElementAction.getTextOfElement(driver.findElement(By.xpath(String.format(SPAN_XPATH, fieldName))));
+    }
+
+    /**
+     * Gets the success message.
      *
      * @return a String with the message.
      */
-    public String getProductTitle() {
-        return webElementAction.getTextOfElement(productTitle);
+    public String getUserSuccessMessage() {
+        return webElementAction.getTextOfElement(successMessage);
     }
 
     /**
-     * Gets the product name.
+     * Gets the date in which the product was created.
      *
-     * @return a String with the product name.
+     * @return a String with the date.
      */
-    public String getProductName() {
-        return webElementAction.getTextOfElement(productNameSpan);
-    }
-
-    /**
-     * Gets the product code.
-     *
-     * @return a String with the product code.
-     */
-    public String getProductCode() {
-        return webElementAction.getTextOfElement(productCodeSpan);
-    }
-
-    /**
-     * Gets the product family.
-     *
-     * @return a String with the product family.
-     */
-    public String getProductFamily() {
-        return webElementAction.getTextOfElement(productFamilySpan);
-    }
-
-    /**
-     * Gets the product description.
-     *
-     * @return a String with the product description.
-     */
-    public String getProductDescription() {
-        return webElementAction.getTextOfElement(productDescriptionSpan);
+    public String getCreatedByDate() {
+        return webElementAction.getTextOfElement(createdByDate);
     }
 }

@@ -17,7 +17,7 @@ public class BaseTest {
     protected ProductsPage productsPage;
     protected HomePage homePage;
 
-    @BeforeTest
+    @BeforeMethod
     public void setUp() {
         pageTransporter = new PageTransporter();
         webDriverManagerSingleton = WebDriverManagerSingleton.getInstance();
@@ -26,7 +26,7 @@ public class BaseTest {
         productsPage = pageTransporter.navigateToProductsPage();
     }
 
-    @AfterTest
+    @AfterMethod
     public void tearDown() {
         WebDriverManagerSingleton.getInstance().quitDriver();
     }
