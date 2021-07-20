@@ -1,7 +1,6 @@
 package base;
 
 import core.WebDriverManagerSingleton;
-import org.openqa.selenium.WebDriver;
 import org.testng.annotations.*;
 import salesforce.ui.PageTransporter;
 import salesforce.ui.pages.HomePage;

@@ -1,5 +1,6 @@
 package salesforce.ui.pages.product;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -26,5 +27,15 @@ public class ProductsPage extends BasePage {
     public NewProductPage clickNewProductButton() {
         webElementAction.clickField(newProductButton);
         return new NewProductPage();
+    }
+
+    /**
+     * Gets name of a product.
+     *
+     * @param productName the name
+     * @return the name of a product
+     */
+    public String getProductName(final String productName) {
+        return driver.findElement(By.linkText(productName)).getText();
     }
 }
