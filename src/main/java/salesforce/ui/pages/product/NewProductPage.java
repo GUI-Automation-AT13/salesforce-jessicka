@@ -1,0 +1,88 @@
+package salesforce.ui.pages.product;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import salesforce.ui.pages.BasePage;
+
+/**
+ * This class returns an instance of NewProductForm.
+ */
+public class NewProductPage extends BasePage {
+
+    @FindBy(css = ".forceActionButton:nth-child(3) > .label")
+    private WebElement saveButton;
+
+    @FindBy(xpath = "//label//span[text()='Active']/../../input")
+    private WebElement activeCheckBox;
+
+    @FindBy(xpath = "//span//span[text()='Product Family']/../..//a")
+    private WebElement productFamilyComboBox;
+
+    @FindBy(xpath = "//label//span[text()='Product Description']/../../textarea")
+    private WebElement productDescriptionTextArea;
+
+    private static final String INPUT_XPATH = "//label//span[text()='%s']/../../input";
+
+    @Override
+    protected void waitForPageLoaded() {
+        wait.until(ExpectedConditions.visibilityOf(saveButton));
+    }
+
+    /**
+     * Sets input fields.
+     *
+     * @param fieldName the name of the field
+     * @param fieldValue the value to set
+     * @return this page
+     */
+    public NewProductPage setInputField(final String fieldName, final String fieldValue) {
+        webElementAction.setInputField(driver.findElement(By.xpath(String.format(INPUT_XPATH, fieldName))), fieldValue);
+        return this;
+    }
+
+    /**
+     * Clicks on active CheckBox.
+     *
+     * @return this page
+     */
+    public NewProductPage clickActiveCheckBox() {
+        webElementAction.clickField(activeCheckBox);
+        return this;
+    }
+
+    /**
+     * Selects an option of the productFamily combo box.
+     *
+     * @param productFamilyOption the option to select
+     * @return this page
+     */
+    public NewProductPage selectProductFamilyOption(final String productFamilyOption) {
+        webElementAction.clickField(productFamilyComboBox);
+        driver.findElement(By.linkText(productFamilyOption)).click();
+        return this;
+    }
+
+    /**
+     * Sets the productDescription.
+     *
+     * @param productDescription to set
+     * @return this page
+     */
+    public NewProductPage setProductDescription(final String productDescription) {
+        webElementAction.setInputField(productDescriptionTextArea, productDescription);
+        return this;
+    }
+
+    /**
+     * Clicks on Save button.
+     *
+     * @return a ProductPage
+     */
+    public ProductPage clickSaveButton() {
+        webElementAction.clickField(saveButton);
+        return new ProductPage();
+    }
+
+}

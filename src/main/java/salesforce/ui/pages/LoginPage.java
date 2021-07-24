@@ -1,6 +1,5 @@
 package salesforce.ui.pages;
 
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -19,10 +18,6 @@ public class LoginPage extends BasePage {
     @FindBy(id = "Login")
     private WebElement loginButton;
 
-    public LoginPage(WebDriver driver) {
-        super(driver);
-    }
-
     @Override
     protected void waitForPageLoaded() {
         wait.until(ExpectedConditions.visibilityOf(loginButton));
@@ -34,7 +29,7 @@ public class LoginPage extends BasePage {
      * @param userName to set
      */
     private void setUsername(final String userName) {
-        userNameTextBox.sendKeys(userName);
+        webElementAction.setInputField(userNameTextBox, userName);
     }
 
     /**
@@ -43,11 +38,14 @@ public class LoginPage extends BasePage {
      * @param password to set
      */
     private void setPassword(final String password) {
-        passwordTextBox.sendKeys(password);
+        webElementAction.setInputField(passwordTextBox, password);
     }
 
+    /**
+     * Clicks on loginButton.
+     */
     private void clickLoginButton() {
-        loginButton.click();
+        webElementAction.clickField(loginButton);
     }
 
     /**
@@ -56,12 +54,12 @@ public class LoginPage extends BasePage {
      * @param userName to set
      * @param password to set
      *
-     * @return a ProductPage instance
+     * @return a ProductsPage instance
      */
-    public ProductPage loginSuccessfully(final String userName, final String password) {
+    public HomePage loginSuccessfully(final String userName, final String password) {
         setUsername(userName);
         setPassword(password);
         clickLoginButton();
-        return new ProductPage(driver);
+        return new HomePage();
     }
 }
