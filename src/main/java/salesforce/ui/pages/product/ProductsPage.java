@@ -30,12 +30,12 @@ public class ProductsPage extends BasePage {
     }
 
     /**
-     * Gets name of a product.
+     * Search for a product given the name.
      *
-     * @param productName the name
-     * @return the name of a product
+     * @param productName the name of the product
+     * @return boolean that indicates if product exists
      */
-    public String getProductName(final String productName) {
-        return driver.findElement(By.linkText(productName)).getText();
+    public boolean productExist(final String productName) {
+        return driver.findElement(By.linkText(productName)).getText().equals(productName);
     }
 }
