@@ -9,17 +9,15 @@ import salesforce.ui.pages.product.ProductsPage;
 import utils.SetUp;
 
 public class BaseTest {
-    protected LoginPage loginPage;
-    protected WebDriverManagerSingleton webDriverManagerSingleton;
-    protected PageTransporter pageTransporter;
 
+    protected LoginPage loginPage;
+    protected PageTransporter pageTransporter;
     protected ProductsPage productsPage;
     protected HomePage homePage;
 
     @BeforeMethod
     public void setUp() {
         pageTransporter = new PageTransporter();
-        webDriverManagerSingleton = WebDriverManagerSingleton.getInstance();
         loginPage = pageTransporter.navigateToLoginPage();
         homePage = loginPage.loginSuccessfully(SetUp.USER_NAME_SALESFORCE.getValue(), SetUp.PASSWORD.getValue());
         productsPage = pageTransporter.navigateToProductsPage();

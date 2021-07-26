@@ -5,7 +5,6 @@ import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import salesforce.ui.pages.product.NewProductPage;
 import salesforce.ui.pages.product.ProductPage;
-import salesforce.ui.pages.product.ProductsPage;
 import utils.StringToDate;
 import java.text.SimpleDateFormat;
 
@@ -21,21 +20,29 @@ public class ProductTests extends BaseTest {
     @Test
     public void aProductIsCreatedWhenJustTheRequiredFormFieldsAreFilled() {
         stringToDate = new StringToDate();
+
+        // Create New Product
         NewProductPage newProductPage = productsPage.clickNewProductButton();
         ProductPage productPage = newProductPage.setInputField("Product Name", productName).clickSaveButton();
+
+        // Check the input entered matches the data displayed
         String actualDate = dateFormat.format(stringToDate.getTodayDate());
         String actualResult = productPage.getSpanText("Product Name");
         softAssert.assertEquals(productPage.getUserSuccessMessage(), "success\nProduct \"" + productName + "\" was created.\nClose", "Message is incorrect");
         softAssert.assertEquals(productName, actualResult, "Product name is incorrect");
         softAssert.assertEquals(actualDate, productPage.getCreatedByDate());
+
+        // Go to ProductsPage and check that the product created exists
         productsPage = pageTransporter.navigateToProductsPage();
-        softAssert.assertEquals(productName, productsPage.getProductName(productName), "Product does not exist");
+        softAssert.assertTrue(productsPage.productExist(productName));
         softAssert.assertAll();
     }
 
     @Test
     public void aProductIsCreatedWhenAllFormFieldsAreFilled() {
         stringToDate = new StringToDate();
+
+        // Create New Product
         NewProductPage newProductPage = productsPage.clickNewProductButton();
         ProductPage productPage = newProductPage
                 .setInputField("Product Name", productName)
@@ -44,6 +51,8 @@ public class ProductTests extends BaseTest {
                 .selectProductFamilyOption(productFamilyOption)
                 .setProductDescription(productDescription)
                 .clickSaveButton();
+
+        // Check the input entered matches the data displayed
         String actualDate = dateFormat.format(stringToDate.getTodayDate());
         softAssert.assertEquals(productPage.getUserSuccessMessage(), "success\nProduct \"" + productName + "\" was created.\nClose", "Message is incorrect");
         softAssert.assertEquals(productName, productPage.getSpanText("Product Name"), "Product name is incorrect");
@@ -51,8 +60,10 @@ public class ProductTests extends BaseTest {
         softAssert.assertEquals(productFamilyOption, productPage.getSpanText("Product Family"), "Product family is incorrect");
         softAssert.assertEquals(productDescription, productPage.getSpanText("Product Description"), "Product description is incorrect");
         softAssert.assertEquals(actualDate, productPage.getCreatedByDate());
+
+        // Go to ProductsPage and check that the product created exists
         productsPage = pageTransporter.navigateToProductsPage();
-        softAssert.assertEquals(productName, productsPage.getProductName(productName), "Product does not exist");
+        softAssert.assertTrue(productsPage.productExist(productName));
         softAssert.assertAll();
     }
 }
