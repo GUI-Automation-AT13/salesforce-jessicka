@@ -1,0 +1,55 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'info.solidsoft.gradle.pitest:gradle-pitest-plugin:1.6.0'
+    }
+}
+
+plugins {
+    id 'java'
+    id 'checkstyle'
+    id 'info.solidsoft.pitest' version '1.6.0'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '3.141.59'
+    implementation group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '4.4.3'
+    implementation group: 'io.github.cdimascio', name: 'dotenv-java', version: '2.2.0'
+    implementation group: 'org.testng', name: 'testng', version: '7.4.0'
+}
+
+test {
+    useTestNG()
+}
+
+pitest {
+    testPlugin='testng'
+    targetClasses = ['utils.StringToDate']
+    targetTests = ['unittests.StringToDateTests*']
+    threads = 4
+    outputFormats = ['XML', 'HTML']
+}
+
+checkstyle {
+    toolVersion '8.44'
+    configFile file('config/checkstyle/checkstyle.xml')
+    checkstyleMain.source = "src/main/"
+    checkstyleMain.excludes = ["**/src/test/**"]
+}
+checkstyleMain {
+    source = 'src/main/java'
+}
+checkstyleTest {
+    source = 'src/main/java'
+}
+//check.dependsOn build
+test.finalizedBy("checkstyleMain")
