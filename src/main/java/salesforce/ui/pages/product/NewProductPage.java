@@ -1,9 +1,12 @@
 package salesforce.ui.pages.product;
 
+import java.util.HashMap;
+import java.util.Set;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import salesforce.entities.Product;
 import salesforce.ui.pages.BasePage;
 
 /**
@@ -85,4 +88,20 @@ public class NewProductPage extends BasePage {
         return new ProductPage();
     }
 
+    /**
+     * Creates a Product.
+     *
+     * @param fields fields to get
+     * @param product class entity
+     * @return a ProductPage
+     */
+    public ProductPage createProduct(Set<String> fields, Product product) {
+        HashMap<String, Runnable> strategyMap = new HashMap<>();
+        strategyMap.put("Name", () -> setInputField("Product Name", product.getName()));
+        strategyMap.put("ProductCode", () -> setInputField("Product Code", product.getProductCode()));
+        strategyMap.put("Family", () -> selectProductFamilyOption(product.getFamily()));
+        strategyMap.put("Description", () -> setProductDescription(product.getDescription()));
+        fields.forEach(field -> strategyMap.get(field).run());
+        return clickSaveButton();
+    }
 }

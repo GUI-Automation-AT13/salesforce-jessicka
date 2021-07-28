@@ -2,23 +2,23 @@ Feature: Create Product
 
   Scenario: Create a product with just required fields
     Given I login to salesforce as an admin user
-    And I navigate to Products page
+    When I navigate to Product2 page
     When I create a new Product with fields
-      | productName | product to test |
+      | Name | product to test |
     Then A successful message is displayed
-    And All product fields matches
-    When I return to Products page and check the products
-    Then The product exists
+    And Check product fields matches
+    And Check The title matches
+    And Check The created date matches
 
   Scenario: Create a product with all fields
     Given I login to salesforce as an admin user
-    And I navigate to Products page
+    When I navigate to Product2 page
     When I create a new Product with fields
-      | productName           | product to test            |
-      | productCode           | product code               |
-      | productFamilyOption   | None                       |
-      | productDescription    | Product description        |
+      | Name           | product to test            |
+      | ProductCode           | product code               |
+      | Family   | None                       |
+      | Description    | Product description        |
     Then A successful message is displayed
-    And All product fields matches
-    When I return to Products page and check the products
-    Then The product exists
+    And Check product fields matches
+    And Check The title matches
+    And Check The created date matches

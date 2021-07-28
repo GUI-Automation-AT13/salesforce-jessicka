@@ -44,6 +44,30 @@ public class ProductPage extends BasePage {
     }
 
     /**
+     * Verifies if an element is present.
+     *
+     * @param fieldName the name of the field.
+     * @return True if the element is present, false otherwise.
+     */
+    public Boolean isPresent(final String fieldName) {
+        return webElementAction.isElementPresent(By.xpath(String.format(SPAN_XPATH, fieldName)), 10000);
+    }
+
+    /**
+     * Verifies if an element is empty.
+     *
+     * @param fieldName the name of the field.
+     * @return True if the element is empty, false otherwise.
+     */
+    public Boolean isEmpty(final String fieldName) {
+        if (webElementAction.getTextOfElement(driver.findElement(By.xpath(String.format(SPAN_XPATH, fieldName)))).isEmpty()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * Gets the success message.
      *
      * @return a String with the message.
@@ -59,5 +83,14 @@ public class ProductPage extends BasePage {
      */
     public String getCreatedByDate() {
         return webElementAction.getTextOfElement(createdByDate);
+    }
+
+    /**
+     * Gets the product tittle.
+     *
+     * @return a String with the tittle.
+     */
+    public String getProductTittle() {
+        return webElementAction.getTextOfElement(productTitle);
     }
 }

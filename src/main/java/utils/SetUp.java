@@ -12,7 +12,8 @@ public enum SetUp {
     PASSWORD(dotenv.get("PASSWORD")),
     WAIT_TIME_VALUE(dotenv.get("WAIT_TIME_VALUE")),
     BROWSER(dotenv.get("BROWSER")),
-    WAIT_SLEEP_TIME(dotenv.get("WAIT_SLEEP_TIME"));
+    WAIT_SLEEP_TIME(dotenv.get("WAIT_SLEEP_TIME")),
+    FEATURE_URL("lightning/o/%s/list?filterName=Recent");
 
     private String value;
 

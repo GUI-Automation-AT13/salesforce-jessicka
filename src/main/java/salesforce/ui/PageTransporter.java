@@ -13,16 +13,26 @@ public class PageTransporter {
     /**
      * Redirects to new URL.
      *
-     * @param url the new url direction
+     * @param url the new url direction.
      */
-    public void goToUrl(final String url) {
+    public static void goToUrl(final String url) {
         WebDriverManagerSingleton.getInstance().getDriver().navigate().to(url);
+    }
+
+    /**
+     * Redirects to the page given.
+     *
+     * @param pageName the name of the page.
+     */
+    public static void navigateToUrlByPageName(String pageName) {
+        String baseUrl = SetUp.BASE_URL.getValue();
+        goToUrl(baseUrl.concat(String.format(SetUp.FEATURE_URL.getValue(), pageName)));
     }
 
     /**
      * Navigates to Products Page.
      *
-     * @return ProductsPage
+     * @return ProductsPage.
      */
     public ProductsPage navigateToProductsPage() {
         goToUrl(SetUp.BASE_URL.getValue().concat(SetUp.PRODUCT_URL.getValue()));
