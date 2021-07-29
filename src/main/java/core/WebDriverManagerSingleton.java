@@ -5,6 +5,7 @@ import io.github.bonigarcia.wdm.config.DriverManagerType;
 import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -34,7 +35,9 @@ public class WebDriverManagerSingleton {
     public WebDriver getWebDriver(String browser) {
         switch (browser) {
             case "CHROME":
-                driver = new ChromeDriver();
+                ChromeOptions chromeOptions = new ChromeOptions();
+                chromeOptions.addArguments("--disable-notifications");
+                driver = new ChromeDriver(chromeOptions);
                 break;
             case "FIREFOX":
                 driver = new FirefoxDriver();

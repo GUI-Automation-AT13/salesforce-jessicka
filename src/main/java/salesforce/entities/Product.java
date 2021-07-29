@@ -2,6 +2,8 @@ package salesforce.entities;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.time.LocalDate;
 import java.util.Date;
 
 /**
@@ -15,9 +17,9 @@ public class Product {
     @JsonProperty("Name")
     public String name;
     @JsonProperty("ProductCode")
-    public String productCode;
+    public String productCode = "";
     @JsonProperty("Description")
-    public String description;
+    public String description = "";
     @JsonProperty("IsActive")
     public boolean isActive;
     @JsonProperty("CreatedDate")
@@ -31,7 +33,7 @@ public class Product {
     @JsonProperty("SystemModstamp")
     public Date systemModStamp;
     @JsonProperty("Family")
-    public String family;
+    public String family = "";
     @JsonProperty("ExternalDataSourceId")
     public Object externalDataSourceId;
     @JsonProperty("ExternalId")
@@ -93,7 +95,7 @@ public class Product {
      * @return a name
      */
     public String getName() {
-        return name;
+        return name.concat(String.valueOf(LocalDate.now()));
     }
 
     /**

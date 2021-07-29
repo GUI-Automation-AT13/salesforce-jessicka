@@ -62,11 +62,10 @@ public class ProductSteps {
     @And("Check product fields matches")
     public void allProductFieldsMatches() {
         softAssert.assertEquals(product.getName(), util.productPage.getSpanText("Product Name"), "Product name is incorrect");
-        if (!util.productPage.isEmpty("Product Code")) {
-            softAssert.assertEquals(product.getProductCode(), util.productPage.getSpanText("Product Code"), "Product code is incorrect");
-            softAssert.assertEquals(product.getFamily(), util.productPage.getSpanText("Product Family"), "Product family is incorrect");
-            softAssert.assertEquals(product.getDescription(), util.productPage.getSpanText("Product Description"), "Product description is incorrect");
-        }
+        softAssert.assertEquals(product.getProductCode(), util.productPage.getSpanText("Product Code"), "Product code is incorrect");
+        softAssert.assertEquals(product.getFamily(), util.productPage.getSpanText("Product Family"), "Product family is incorrect");
+//        softAssert.assertEquals(product.getDescription(), util.productPage.getSpanText("Product Description"), "Product description is incorrect");
+//        softAssert.assertEquals(product.getDescription(), util.productPage.getDescription(), "Product description is incorrect");
     }
 
     @And("Check The title matches")

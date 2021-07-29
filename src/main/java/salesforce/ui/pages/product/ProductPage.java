@@ -26,6 +26,9 @@ public class ProductPage extends BasePage {
     @FindBy(xpath = "//span[text()='Created By']/../..//span[contains(@class,'uiOutputDateTime')]")
     private WebElement createdByDate;
 
+    @FindBy(xpath = "//div/span[text()='Product Description']/../..//span/span")
+    private WebElement descriptionTextArea;
+
     private static final String SPAN_XPATH = "//div/span[text()='%s']/../..//span/span";
 
     @Override
@@ -41,6 +44,15 @@ public class ProductPage extends BasePage {
      */
     public String getSpanText(final String fieldName) {
         return webElementAction.getTextOfElement(driver.findElement(By.xpath(String.format(SPAN_XPATH, fieldName))));
+    }
+
+    /**
+     * Gets the description of the product.
+     *
+     * @return the description
+     */
+    public String getDescription() {
+        return webElementAction.getTextOfElement(descriptionTextArea);
     }
 
     /**
@@ -60,11 +72,7 @@ public class ProductPage extends BasePage {
      * @return True if the element is empty, false otherwise.
      */
     public Boolean isEmpty(final String fieldName) {
-        if (webElementAction.getTextOfElement(driver.findElement(By.xpath(String.format(SPAN_XPATH, fieldName)))).isEmpty()) {
-            return true;
-        } else {
-            return false;
-        }
+        return webElementAction.getTextOfElement(driver.findElement(By.xpath(String.format(SPAN_XPATH, fieldName)))).isEmpty();
     }
 
     /**

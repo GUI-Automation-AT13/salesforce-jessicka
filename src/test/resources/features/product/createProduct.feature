@@ -14,10 +14,10 @@ Feature: Create Product
     Given I login to salesforce as an admin user
     When I navigate to Product2 page
     When I create a new Product with fields
-      | Name           | product to test            |
-      | ProductCode           | product code               |
-      | Family   | None                       |
-      | Description    | Product description        |
+      | Name        | product to test        |
+      | ProductCode | product code           |
+      | Family      | None                   |
+      | Description | Product description    |
     Then A successful message is displayed
     And Check product fields matches
     And Check The title matches
