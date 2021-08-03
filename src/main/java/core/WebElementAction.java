@@ -1,9 +1,13 @@
 package core;
 
+import java.util.NoSuchElementException;
+import java.util.concurrent.TimeUnit;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import utils.SetUp;
 
 /**
  * Helps with filling the web elements.
@@ -47,5 +51,25 @@ public class WebElementAction {
     public String getTextOfElement(final WebElement webElement) {
         wait.until(ExpectedConditions.visibilityOf(webElement));
         return webElement.getText();
+    }
+
+    /**
+     * Verifies if an element is present.
+     * Uses an interval time to wait and find the element and return true if it is present.
+     *
+     * @param by - Selector of element to Find.
+     * @param intervalTime - Time in milliseconds to wait.
+     * @return True if the element is present, false otherwise.
+     */
+    public boolean isElementPresent(final By by, final int intervalTime) {
+        driver.manage().timeouts().implicitlyWait(intervalTime, TimeUnit.MILLISECONDS);
+        try {
+            driver.findElement(by);
+            return true;
+        } catch (NoSuchElementException e) {
+            return false;
+        } finally {
+            driver.manage().timeouts().implicitlyWait(Long.parseLong(SetUp.IMPLICIT_WAIT_TIME.getValue()), TimeUnit.MILLISECONDS);
+        }
     }
 }

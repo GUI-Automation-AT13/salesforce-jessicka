@@ -14,6 +14,9 @@ public class ProductsPage extends BasePage {
     @FindBy(css = ".forceActionLink > div")
     private WebElement newProductButton;
 
+    @FindBy(xpath = "//div/a[contains(@class, 'rowActionsPlaceHolder')]")
+    private WebElement showActionsButton;
+
     @Override
     protected void waitForPageLoaded() {
         wait.until(ExpectedConditions.visibilityOf(newProductButton));

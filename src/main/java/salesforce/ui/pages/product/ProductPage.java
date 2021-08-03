@@ -17,15 +17,13 @@ public class ProductPage extends BasePage {
     @FindBy(css = ".slds-page-header__title > .uiOutputText")
     private WebElement productTitle;
 
-    @FindBy(css = "img.checked")
-    private WebElement activeCheckBoxChecked;
-
-    @FindBy(css = "img.unchecked")
-    private WebElement activeCheckBoxUnchecked;
-
     @FindBy(xpath = "//span[text()='Created By']/../..//span[contains(@class,'uiOutputDateTime')]")
     private WebElement createdByDate;
 
+    @FindBy(xpath = "//div/span[text()='Product Description']/../..//span/span")
+    private WebElement descriptionTextArea;
+
+    private By activeCheckBoxChecked = By.xpath("//span[contains(@data-aura-class, 'uiImage uiOutputCheckbox')]/img");
     private static final String SPAN_XPATH = "//div/span[text()='%s']/../..//span/span";
 
     @Override
@@ -44,6 +42,36 @@ public class ProductPage extends BasePage {
     }
 
     /**
+     * Gets if product is active.
+     *
+     * @return true if it is active, false if not
+     */
+    public boolean isActive() {
+        WebElement checkbox = driver.findElement(activeCheckBoxChecked);
+        return  checkbox.getAttribute("alt").contains("True");
+
+    }
+
+    /**
+     * Gets the description of the product.
+     *
+     * @return the description
+     */
+    public String getDescription() {
+        return webElementAction.getTextOfElement(descriptionTextArea);
+    }
+
+    /**
+     * Verifies if an element is empty.
+     *
+     * @param fieldName the name of the field.
+     * @return True if the element is empty, false otherwise.
+     */
+    public Boolean isEmpty(final String fieldName) {
+        return webElementAction.getTextOfElement(driver.findElement(By.xpath(String.format(SPAN_XPATH, fieldName)))).isEmpty();
+    }
+
+    /**
      * Gets the success message.
      *
      * @return a String with the message.
@@ -59,5 +87,14 @@ public class ProductPage extends BasePage {
      */
     public String getCreatedByDate() {
         return webElementAction.getTextOfElement(createdByDate);
+    }
+
+    /**
+     * Gets the product tittle.
+     *
+     * @return a String with the tittle.
+     */
+    public String getProductTittle() {
+        return webElementAction.getTextOfElement(productTitle);
     }
 }

@@ -25,6 +25,12 @@ dependencies {
     implementation group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '4.4.3'
     implementation group: 'io.github.cdimascio', name: 'dotenv-java', version: '2.2.0'
     implementation group: 'org.testng', name: 'testng', version: '7.4.0'
+    implementation 'io.cucumber:cucumber-java:6.10.4'
+    implementation 'io.cucumber:cucumber-picocontainer:6.10.4'
+    implementation 'io.cucumber:cucumber-testng:6.10.4'
+    implementation 'io.rest-assured:rest-assured:4.4.0'
+    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.12.4'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.4'
 }
 
 test {
