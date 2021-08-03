@@ -15,6 +15,7 @@ Feature: Create Product
     When I navigate to Product2 page
     When I create a new Product with fields
       | Name        | product to test        |
+      | IsActive    | true                   |
       | ProductCode | product code           |
       | Family      | None                   |
       | Description | Product description    |

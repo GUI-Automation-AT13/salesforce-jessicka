@@ -3,21 +3,25 @@ package cucumber.steps;
 import core.WebDriverManagerSingleton;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
+import salesforce.entities.Product;
 import salesforce.ui.PageTransporter;
+import salesforce.ui.pages.LoginPage;
 
 public class Hooks {
+    private Product product;
+    public LoginPage loginPage;
+    public WebDriverManagerSingleton driverManager;
+    public PageTransporter pageTransporter;
 
-    private Util util;
-
-    public Hooks(Util util) {
-        this.util = util;
+    public Hooks(Product product) {
+        this.product = product;
     }
 
     @Before
     public void init() {
-        util.driverManager = WebDriverManagerSingleton.getInstance();
-        util.pageTransporter = new PageTransporter();
-        util.loginPage = util.pageTransporter.navigateToLoginPage();
+        driverManager = WebDriverManagerSingleton.getInstance();
+        pageTransporter = new PageTransporter();
+        loginPage = pageTransporter.navigateToLoginPage();
     }
 
     @After

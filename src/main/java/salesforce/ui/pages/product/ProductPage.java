@@ -17,18 +17,13 @@ public class ProductPage extends BasePage {
     @FindBy(css = ".slds-page-header__title > .uiOutputText")
     private WebElement productTitle;
 
-    @FindBy(css = "img.checked")
-    private WebElement activeCheckBoxChecked;
-
-    @FindBy(css = "img.unchecked")
-    private WebElement activeCheckBoxUnchecked;
-
     @FindBy(xpath = "//span[text()='Created By']/../..//span[contains(@class,'uiOutputDateTime')]")
     private WebElement createdByDate;
 
     @FindBy(xpath = "//div/span[text()='Product Description']/../..//span/span")
     private WebElement descriptionTextArea;
 
+    private By activeCheckBoxChecked = By.xpath("//span[contains(@data-aura-class, 'uiImage uiOutputCheckbox')]/img");
     private static final String SPAN_XPATH = "//div/span[text()='%s']/../..//span/span";
 
     @Override
@@ -47,22 +42,23 @@ public class ProductPage extends BasePage {
     }
 
     /**
+     * Gets if product is active.
+     *
+     * @return true if it is active, false if not
+     */
+    public boolean isActive() {
+        WebElement checkbox = driver.findElement(activeCheckBoxChecked);
+        return  checkbox.getAttribute("alt").contains("True");
+
+    }
+
+    /**
      * Gets the description of the product.
      *
      * @return the description
      */
     public String getDescription() {
         return webElementAction.getTextOfElement(descriptionTextArea);
-    }
-
-    /**
-     * Verifies if an element is present.
-     *
-     * @param fieldName the name of the field.
-     * @return True if the element is present, false otherwise.
-     */
-    public Boolean isPresent(final String fieldName) {
-        return webElementAction.isElementPresent(By.xpath(String.format(SPAN_XPATH, fieldName)), 10000);
     }
 
     /**

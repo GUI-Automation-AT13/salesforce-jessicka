@@ -98,6 +98,7 @@ public class NewProductPage extends BasePage {
     public ProductPage createProduct(Set<String> fields, Product product) {
         HashMap<String, Runnable> strategyMap = new HashMap<>();
         strategyMap.put("Name", () -> setInputField("Product Name", product.getName()));
+        strategyMap.put("IsActive", () -> clickActiveCheckBox());
         strategyMap.put("ProductCode", () -> setInputField("Product Code", product.getProductCode()));
         strategyMap.put("Family", () -> selectProductFamilyOption(product.getFamily()));
         strategyMap.put("Description", () -> setProductDescription(product.getDescription()));

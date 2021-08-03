@@ -7,6 +7,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import utils.SetUp;
 
 /**
  * Helps with filling the web elements.
@@ -68,7 +69,7 @@ public class WebElementAction {
         } catch (NoSuchElementException e) {
             return false;
         } finally {
-            driver.manage().timeouts().implicitlyWait(intervalTime, TimeUnit.MILLISECONDS);
+            driver.manage().timeouts().implicitlyWait(Long.parseLong(SetUp.IMPLICIT_WAIT_TIME.getValue()), TimeUnit.MILLISECONDS);
         }
     }
 }
